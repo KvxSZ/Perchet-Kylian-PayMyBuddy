@@ -1,4 +1,4 @@
-package fr.paymybuddy.demo;
+package fr.paymybuddy.model;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
