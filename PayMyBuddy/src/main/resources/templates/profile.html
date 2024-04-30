@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profil</title>
+  <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .header-profile {
+            padding: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #fff;
+        }
+        #pay-my-buddy-profile {
+            padding: 10px 20px;
+            border-radius: 10px;
+            background: linear-gradient(to right, #8bc34a, #4caf50);
+            color: white;
+            margin-right: 20px;
+        }
+        .menu-profile {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            margin-right: 20px;
+            font-weight: bold;
+        }
+        .menu-profile li {
+            display: inline-block;
+            margin-right: 20px;
+        }
+        .menu-profile li:last-child {
+            margin-right: 0;
+        }
+        .menu-profile li a {
+            color: #666;
+            text-decoration: none;
+        }
+        .menu-profile li a.active {
+            color: #007bff;
+        }
+        .breadcrumb-profile {
+            background-color: #e7e7e7;
+            padding: 10px 10px;
+            color: #666;
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+        }
+        .breadcrumb-profile span {
+            margin-right: 5px;
+        }
+        .breadcrumb-profile span:first-child {
+            color: #007bff;
+            font-weight: bold;
+        }
+        .container-profile {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #e5e5e5;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 20px;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .info-item {
+            margin-bottom: 15px;
+            flex-basis: 25%;
+        }
+
+        .label {
+            font-weight: bold;
+        }
+
+        .value {
+            margin-left: 10px;
+        }
+        h2 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-profile {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .label-profile {
+            font-weight: bold;
+            margin-bottom: 8px;
+            flex-basis: 30%; /* Added to control width of labels */
+        }
+
+        .friend-container-profile {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px; /* Added padding for spacing */
+            color: #666;
+            font-size: 18px;
+        }
+
+        /* My friend */
+        .my-friend-profile {
+            margin-top: 50px;
+            color: #000;
+            border: 1px solid #000;
+            border-collapse: collapse;
+            width: 100%;
+        }
+        .my-friend-profile th,
+        .my-friend-profile td {
+            border: none;
+            padding: 25px;
+            text-align: center;
+        }
+        .my-friend-profile th {
+            background-color: #8bc34a; /* Vert pour les en-têtes */
+            color: #fff;
+        }
+        .my-friend-profile tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .my-friend-profile tbody tr:nth-child(odd) {
+            background-color: #fff;
+        }
+        .add-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px; /* Added padding for spacing */
+        }
+                .add-connection {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .add-connection:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<div class="header-profile">
+  <div id="pay-my-buddy-profile">Pay My Buddy</div>
+  <ul class="menu-profile">
+    <li><a href="/home">Home</a></li>
+    <li><a href="/payment-form">Transfer</a></li>
+    <li><a href="#" class="active">Profile</a></li>
+    <li><a href="/contact">Contact</a></li>
+    <li><a href="/logout">Log off</a></li>
+  </ul>
+</div>
+
+<div class="content">
+  <div class="breadcrumb-profile">
+    <span>Home / </span>
+    <span>Profil</span>
+  </div>
+</div>
+<div class="friend-container-profile">
+  <div class="friends">My Information</div>
+</div>
+<div class="container-profile">
+  <div class="info-item">
+    <div class="label">FirstName:</div>
+    <div class="value" th:text="${user.firstName}"></div>
+  </div>
+  <div class="info-item">
+    <div class="label">LastName:</div>
+    <div class="value" th:text="${user.lastName}"></div>
+  </div>
+  <div class="info-item">
+    <div class="label">Email:</div>
+    <div class="value" th:text="${user.email}"></div>
+  </div>
+  <div class="info-item">
+    <div class="label">Balance:</div>
+    <div class="value" th:text="${user.balance} + '€'"></div>
+  </div>
+  <div>
+    <a href="/deposit">
+      <button class="add-connection">Deposit</button>
+    </a>
+  </div>
+</div>
+
+<div class="friend-container-profile">
+  <div class="friends">My Friends</div>
+</div>
+<!-- My Transactions -->
+<div class="container-profile">
+  <table class="my-friend-profile">
+    <thead>
+    <tr>
+      <th>firstName</th>
+      <th>lastName</th>
+      <th>email</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="f : ${friends}">
+      <td th:text="${f.firstName}">
+
+      </td>
+      <td th:text="${f.lastName}">
+
+      </td>
+      <td th:text="${f.email}">
+
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<div class="add-container">
+  <a href="/contact"><button class="add-connection">Add Connection</button></a>
+</div>
+</body>
+</html>

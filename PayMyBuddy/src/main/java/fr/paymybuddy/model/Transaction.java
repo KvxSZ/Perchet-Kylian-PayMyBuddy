@@ -12,20 +12,35 @@ public class Transaction {
     @Column(name = "transaction_id")
     private int transactionId;
 
-    @Column(name = "amount")
+    @Column(name = "amount", nullable = false)
     private double amount;
 
-    @Column(name = "date")
+    @Column(name = "date", nullable = false)
     private Date date;
 
-    @OneToOne
+    @Column(name = "description", nullable = false)
+    private String description;
+
+    @ManyToOne
     @JoinColumn(name = "sender_id")
-    private User senderId;
+    private User sender;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "receiver_id")
-    private User receiverId;
+    private User receiver;
 
+    // Constructors
+    public Transaction() {}
+
+    public Transaction(double amount, Date date, String description, User sender, User receiver) {
+        this.amount = amount;
+        this.date = date;
+        this.description = description;
+        this.sender = sender;
+        this.receiver = receiver;
+    }
+
+    // Getter and setter methods
     public int getTransactionId() {
         return transactionId;
     }
@@ -50,19 +65,27 @@ public class Transaction {
         this.date = date;
     }
 
-    public User getSenderId() {
-        return senderId;
+    public String getDescription() {
+        return description;
     }
 
-    public void setSenderId(User senderId) {
-        this.senderId = senderId;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public User getReceiverId() {
-        return receiverId;
+    public User getSender() {
+        return sender;
     }
 
-    public void setReceiverId(User receiverId) {
-        this.receiverId = receiverId;
+    public void setSender(User sender) {
+        this.sender = sender;
+    }
+
+    public User getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(User receiver) {
+        this.receiver = receiver;
     }
 }

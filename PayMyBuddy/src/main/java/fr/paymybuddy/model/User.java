@@ -1,9 +1,7 @@
 package fr.paymybuddy.model;
 
-
 import jakarta.persistence.*;
-
-
+import java.util.List;
 
 @Entity
 @Table(name = "user")
@@ -14,18 +12,25 @@ public class User {
     @Column(name = "user_id")
     private int userId;
 
-    @Column(name = "firstname")
+    @Column(name = "firstname", nullable = false)
     private String firstName;
 
-    @Column(name = "lastname")
+    @Column(name = "lastname", nullable = false)
     private String lastName;
 
-    @Column(name = "email")
+    @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     private String password;
 
+    @Column(name = "balance")
+    private double balance;
+
+    @ManyToMany
+    private List<User> friends;
+
+    // Constructors
     public User() {
     }
 
@@ -36,6 +41,7 @@ public class User {
         this.password = password;
     }
 
+    // Getter and setter methods
     public int getUserId() {
         return userId;
     }
@@ -74,5 +80,21 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
+    public List<User> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(List<User> friends) {
+        this.friends = friends;
     }
 }

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Pay My Buddy</title>
+  <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: #f4f4f4;
+        }
+        #register-container {
+            height: 450px;
+            width: 350px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background: #fff;
+            text-align: center;
+        }
+        #pay-my-buddy {
+            width: 110px;
+            padding: 10px 20px;
+            border-radius: 10px;
+            background: linear-gradient(to right, #8bc34a, #4caf50);
+            color: white;
+            margin: 0 auto;
+            margin-bottom: 10px;
+        }
+        .form-group {
+            margin-bottom: 30px;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .form-group img {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 10px;
+            pointer-events: none;
+        }
+        .form-group input {
+            flex: 1;
+            width: calc(100% - 40px);
+            padding: 13px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding-left: 40px;
+        }
+        .form-group button {
+            width: 120px;
+            margin: 0 auto;
+            margin-top: 20px;
+            padding: 8px 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .form-group button:hover {
+            background-color: #0056b3;
+        }
+        #firstName{
+            margin-top: 30px;
+        }
+        #firstimg{
+            margin-top: 15px;
+        }
+        #register {
+            margin-top: 40px;
+        }
+        /* CSS pour placer l'erreur en dessous de l'e-mail */
+        .error-message {
+            color: red;
+            margin-top: 5px; /* Espacement entre l'entrée d'e-mail et le message d'erreur */
+        }
+    </style>
+</head>
+<body>
+<div id="register-container">
+  <div id="pay-my-buddy">Pay My Buddy</div>
+  <form th:action="@{/register}" method="post">
+    <div class="form-group">
+      <img width="20" height="20" id="firstimg" src="https://img.icons8.com/ios/50/name--v1.png" alt="name--v1"/>
+      <input type="text" name="firstName" id="firstName" th:required="required" placeholder="First Name" required>
+    </div>
+    <div class="form-group">
+      <img width="20" height="20" src="https://img.icons8.com/ios/50/name--v1.png" alt="name--v1"/>
+      <input type="text" name="lastName" id="lastName" th:required="required" placeholder="Last Name" required>
+    </div>
+    <div>
+      <div th:if="${emailExists}" class="error-message">Cette adresse e-mail est déjà utilisée.</div>
+      <div class="form-group">
+        <img width="20" height="20"  src="https://img.icons8.com/ios/50/secured-letter--v1.png" alt="secured-letter--v1"/>
+        <input type="email" name="email" id="email" th:required="required" placeholder="Email" required>
+      </div>
+    </div>
+    <div class="form-group">
+      <img src="https://img.icons8.com/windows/24/000000/password.png"/>
+      <input type="password" name="password" id="password" th:required="required" placeholder="Password" required>
+    </div>
+    <div class="form-group">
+      <button type="submit" id="register">S'inscrire</button>
+    </div>
+  </form>
+</div>
+</body>
+</html>

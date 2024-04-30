@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulaire de Paiement</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            padding: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #fff;
+        }
+        #pay-my-buddy {
+            padding: 10px 20px;
+            border-radius: 10px;
+            background: linear-gradient(to right, #8bc34a, #4caf50);
+            color: white;
+            margin-right: 20px;
+        }
+        .menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            margin-right: 20px;
+            font-weight: bold;
+        }
+        .menu li {
+            display: inline-block;
+            margin-right: 20px;
+        }
+        .menu li:last-child {
+            margin-right: 0;
+        }
+        .menu li a {
+            color: #666;
+            text-decoration: none;
+        }
+        .menu li a.active {
+            color: #007bff;
+        }
+        .breadcrumb {
+            background-color: #e7e7e7;
+            padding: 10px 10px;
+            color: #666;
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+        }
+        .breadcrumb span {
+            margin-right: 5px;
+        }
+        .breadcrumb span:first-child {
+            color: #007bff;
+            font-weight: bold;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #e5e5e5;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        h2 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        label {
+            font-weight: bold;
+            margin-bottom: 8px;
+            flex-basis: 30%; /* Added to control width of labels */
+        }
+        input[type="number"],
+        input[type="email"],
+        textarea,
+        select {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            flex-basis: calc(50% - 10px); /* Adjusted width to 50% minus margins */
+        }
+        select {
+            flex-basis: 65%; /* Adjusted select width */
+            appearance: none;
+            background-color: white;
+        }
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        button[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 30px; /* Increased padding */
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 18px; /* Increased font size */
+            transition: background-color 0.3s;
+            flex-basis: 100%; /* Added to make button full width */
+        }
+        .send-money-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end; /* Aligner le texte en bas */
+            margin-bottom: 20px;
+        }
+        .send-money {
+            color: #666;
+            font-size: 18px;
+        }
+        .add-connection {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .add-connection:hover {
+            background-color: #0056b3;
+        }
+        .amount {
+            width: 15%; /* Réduire la largeur du conteneur de champ #amount */
+        }
+
+        #amount {
+            width: calc(100% - 30px); /* Réduire la largeur du champ #amount */
+            /* Vous pouvez ajuster la valeur de '30px' selon vos besoins pour maintenir une marge appropriée */
+        }
+
+        #paymentForm {
+            margin-top: 30px;
+            margin-right: 100px;
+            margin-left: 100px;
+            margin-bottom: 10px;
+        }
+        .description textarea {
+            resize: vertical;
+            min-height: 25px; /* Réglez la hauteur minimale souhaitée */
+            max-height: 200px; /* Réglez la hauteur maximale souhaitée */
+        }
+        .send-money-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px; /* Added padding for spacing */
+        }
+
+        .tansaction-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px; /* Added padding for spacing */
+            color: #666;
+            font-size: 18px;
+        }
+
+        /* My Transactions */
+        .my-transactions {
+            margin-top: 50px;
+            color: #000;
+            border: 1px solid #000;
+            border-collapse: collapse;
+            width: 100%;
+        }
+        .my-transactions th,
+        .my-transactions td {
+            border: none;
+            padding: 25px;
+            text-align: center;
+        }
+        .my-transactions th {
+            background-color: #8bc34a; /* Vert pour les en-têtes */
+            color: #fff;
+        }
+        .my-transactions tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .my-transactions tbody tr:nth-child(odd) {
+            background-color: #fff;
+        }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .pagination a {
+            display: inline-block;
+            color: blue;
+            padding: 8px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+            border: 1px solid #ddd; /* Bordure grise claire */
+            background-color: white; /* Fond blanc */
+            border-radius: 5px; /* Coins arrondis */
+        }
+
+        .pagination a.active {
+            background-color: blue;
+            color: white;
+        }
+
+        .pagination button:hover:not(.active) {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <div id="pay-my-buddy">Pay My Buddy</div>
+    <ul class="menu">
+        <li><a href="/home">Home</a></li>
+        <li><a href="#" class="active">Transfer</a></li>
+        <li><a href="/profile">Profile</a></li>
+        <li><a href="/contact">Contact</a></li>
+        <li><a href="/logout">Log off</a></li>
+    </ul>
+</div>
+
+<div class="content">
+    <div class="breadcrumb">
+        <span>Home / </span>
+        <span>Transfer</span>
+    </div>
+</div>
+<div class="send-money-container">
+    <div class="send-money">Send Money</div>
+    <a href="/contact"><button class="add-connection">Add Connection</button></a>
+</div>
+<div class="container">
+    <!-- Affichage des messages d'erreurs -->
+    <div th:if="${errorMessage}" class="error" th:text="${errorMessage}"></div>
+    <!-- Formulaire -->
+    <form id="paymentForm" action="#" th:action="@{/process-payment}" th:object="${payment}" method="post">
+        <div class="payment">
+            <select id="email" th:field="*{recipientEmail}" required>
+                <option value="" selected>Select A Connection</option>
+                <!-- Ajoutez ici les options de votre menu déroulant -->
+                <option th:each="friend : ${friends}" th:value="${friend.email}" th:text="${friend.email}"></option>
+            </select>
+        </div>
+        <div class="amount">
+            <input type="number" id="amount" th:field="*{amount}" step="any" placeholder="0€" required style="width: 80%;"> <!-- Adjusted width to 80% -->
+        </div>
+        <div class="description">
+            <textarea id="description" th:field="*{description}" required></textarea>
+        </div>
+        <div>
+            <button type="submit">Pay</button>
+        </div>
+    </form>
+</div>
+
+<div class="tansaction-container">
+    <div class="tansaction">My Transaction</div>
+</div>
+<!-- My Transactions -->
+<div class="container">
+    <table class="my-transactions">
+        <thead>
+        <tr>
+            <th>Connections</th>
+            <th>Description</th>
+            <th>Amount</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr th:each="t : ${transactions}">
+                <td th:text="${t.senderId.firstName}">
+
+                </td>
+                <td th:text="${t.description}">
+
+                </td>
+                <td th:text="${t.amount} + '€'">
+
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="pagination">
+        <a th:if="${transactions.number} > 0" th:text="'◄'" th:href="'/payment-form?page=' + ${transactions.number - 1}"><button></button></a>
+        <span th:each="i : ${#numbers.sequence(transactions.number - 2, transactions.number + 2)}">
+            <a th:if="${i >= 0 && i < transactions.totalPages}" th:text="${i + 1}" th:href="'/payment-form?page=' + ${i}"><button></button></a>
+        </span>
+        <a th:if="${transactions.number} < ${transactions.totalPages} - 1" th:text="'►'" th:href="'/payment-form?page=' + ${transactions.number + 1}"><button></button></a>
+    </div>
+
+</div>
+</body>
+</html>

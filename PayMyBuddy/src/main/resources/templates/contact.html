@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Pay My Buddy - Home</title>
+  <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            padding: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #fff;
+        }
+        #pay-my-buddy {
+            padding: 10px 20px;
+            border-radius: 10px;
+            background: linear-gradient(to right, #8bc34a, #4caf50);
+            color: white;
+            margin-right: 20px;
+        }
+        .menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            margin-right: 20px;
+            font-weight: bold;
+        }
+        .menu li {
+            display: inline-block;
+            margin-right: 20px;
+        }
+        .menu li:last-child {
+            margin-right: 0;
+        }
+        .menu li a {
+            color: #666;
+            text-decoration: none;
+        }
+        .menu li a.active {
+            color: #007bff;
+        }
+        .breadcrumb {
+            background-color: #e7e7e7;
+            padding: 10px 10px;
+            color: #666;
+            display: flex;
+            align-items: center;
+        }
+        .breadcrumb span {
+            margin-right: 5px;
+        }
+        .breadcrumb span:last-child {
+            color: #007bff;
+            font-weight: bold;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="email"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+  <div id="pay-my-buddy">Pay My Buddy</div>
+  <ul class="menu">
+    <li><a href="/home">Home</a></li>
+    <li><a href="/payment-form">Transfer</a></li>
+    <li><a href="/profile">Profile</a></li>
+    <li><a href="#" class="active">Contact</a></li>
+    <li><a href="/logout">Log off</a></li>
+  </ul>
+</div>
+
+<div class="content">
+  <div class="breadcrumb">
+    <span>Home / </span>
+    <span>Contact</span>
+  </div>
+</div>
+<div class="container">
+  <h2>Ajouter un ami</h2>
+  <form id="addFriendForm" action="#" th:action="@{/add-friend}" th:object="${email}" method="post">
+    <label for="email">E-mail de l'ami :</label>
+    <input type="email" id="email" name="email" placeholder="Entrez l'e-mail de votre ami" required>
+    <button type="submit">Ajouter</button>
+  </form>
+</div>
+</body>
+</html>
