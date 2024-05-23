@@ -78,7 +78,7 @@ public class UserService {
     @Transactional
     public void giveMoney(double amount, User user){
         user.setBalance(user.getBalance() + amount);
-        userRepository.save(user);
+        userRepository.save(user); 
     }
 
     // Send money from one user to another user
