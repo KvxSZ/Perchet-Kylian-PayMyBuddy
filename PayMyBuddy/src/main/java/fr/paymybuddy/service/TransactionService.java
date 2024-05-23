@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -26,11 +27,13 @@ public class TransactionService {
     }
 
     // Add a transaction
+    @Transactional
     public Transaction addTransaction(Transaction transaction){
         return transactionRepository.save(transaction);
     }
 
     // Delete a transaction by ID
+    @Transactional
     public void deleteTransactionById(Integer id){
         transactionRepository.deleteById(id);
     }

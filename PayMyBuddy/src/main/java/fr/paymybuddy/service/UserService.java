@@ -5,6 +5,7 @@ import fr.paymybuddy.model.User;
 import fr.paymybuddy.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -30,11 +31,13 @@ public class UserService {
     }
 
     // Add a user
+    @Transactional
     public User addUser(User user){
         return userRepository.save(user);
     }
 
     // Delete a user by ID
+    @Transactional
     public void deleteUserById(Integer id){
         userRepository.deleteById(id);
     }
@@ -51,6 +54,7 @@ public class UserService {
     }
 
     // Add a friend to a user
+    @Transactional
     public void addFriend(User user, User friend){
         List<User> friendList = user.getFriends();
         friendList.add(friend);
@@ -59,6 +63,7 @@ public class UserService {
     }
 
     // Take money from a user's balance
+    @Transactional
     public boolean takeMoney(double amount, User user){
         if (user.getBalance() >= amount) {
             user.setBalance(user.getBalance() - amount);
@@ -70,19 +75,26 @@ public class UserService {
     }
 
     // Add money to a user's balance
+    @Transactional
     public void giveMoney(double amount, User user){
         user.setBalance(user.getBalance() + amount);
         userRepository.save(user);
     }
 
     // Send money from one user to another user
+    @Transactional
     public String sendMoneyToOtherUser(double amount, User sender, User receiver, String description){
-        if (takeMoney(amount + (amount * 0.05), sender)){
-            giveMoney(amount, receiver);
-            transactionService.addTransaction(new Transaction(amount, new Date(), description, sender, receiver));
-            return "Payment successful";
-        } else {
-            return "Payment failed, Insufficient balance " + "(" + (amount + (amount * 0.05)) + "/" + sender.getBalance() + ")";
+        try {
+            System.out.println("------ createTransaction ------");
+            if (takeMoney(amount + (amount * 0.05), sender)){
+                giveMoney(amount, receiver);
+                transactionService.addTransaction(new Transaction(amount, new Date(), description, sender, receiver));
+            } else {
+                return "Payment failed, Insufficient balance " + "(" + (amount + (amount * 0.05)) + "/" + sender.getBalance() + ")";
+            }
+        }catch (Exception e){
+            System.out.println("Here we catch the exception.");
         }
+        return "Payment successful";
     }
 }
